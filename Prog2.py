@@ -70,7 +70,6 @@ def main():
     hist_eq_car_cdf = np.cumsum(hist_eq_car) / np.sum(hist_car)
 
     plt.subplot(221), plt.bar([i for i in range(256)], [i[0] for i in hist_car])
-    # plt.subplot(221), plt.plot(hist_car)
     plt.title("histograma não normalizado"), plt.yticks([]), plt.xlim([0,256])
     plt.subplot(222), plt.bar([i for i in range(256)], hist_car_cdf)
     plt.title("CDF não normalizado"), plt.xticks([]), plt.yticks([])
