@@ -51,7 +51,7 @@ def troca_fase(img1, img2):
     plot([img1, img2])
 
 def edge_improv2(img):
-    blur = cv.GaussianBlur(img, (5, 5), 0)
+    blur = cv.GaussianBlur(img, (3, 3), 0)
     img_mod = cv.addWeighted(img, 2, blur, -1, 0)
     return img_mod
 
@@ -60,16 +60,20 @@ def main():
     clown = cv.imread('imagens/clown.tif', 0)
     man = cv.imread('imagens/mandrill.tif', 0)
 
-    print(clown.shape)
-
-    f_clown = furr(clown)
-    f_man = furr(man)
+    furr(clown)
+    furr(man)
 
     troca_fase(clown, man)
 
-    plot([clown, edge_improv2(clown)])
-    plot([man, edge_improv2(man)])
-
+    test = cv.imread('imagens/test80.jpg')
+    test = np.delete(test, [i for i in range(0, test.shape[0], 2)], 0)
+    test = np.delete(test, [i for i in range(0, test.shape[1], 2)], 1)
+    test = np.repeat(test, 2, 0)
+    test = np.repeat(test, 2, 1)
+    cv.imshow('', test)
+    cv.waitKey(0)
+    cv.imshow('', edge_improv2(cv.GaussianBlur(test, (3, 3), 0)))
+    cv.waitKey(0)
 
 if __name__ == '__main__':
     main()

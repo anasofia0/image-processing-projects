@@ -35,7 +35,7 @@ def edge_improv(img):
 
     kernel = np.array([[1,1,1],
                         [1,1,1],
-                        [1,1,1]])/10
+                        [1,1,1]])/9
     
     blurr = cv.filter2D(img,-1,kernel)
 
