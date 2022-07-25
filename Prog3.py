@@ -29,30 +29,31 @@ def furr(img):
 
     return freq_shift
 
-def troca_fase(fur1, fur2):
+def troca_fase(img1, img2):
 
-    real1 = np.real(fur1)
-    real2 = np.real(fur2)
+    freq1 = np.fft.fft2(img1)
+    freq2 = np.fft.fft2(img2)
+    
+    mag1 = np.abs(freq1)
+    mag2 = np.abs(freq2)
 
-    fase1 = np.angle(fur1)
-    fase2 = np.angle(fur2)
+    vec_fase = np.vectorize(lambda i: np.cos(i)+1j*np.sin(i))
 
-    fur1 = np.vectorize(complex)(real1, fase2)
-    fur2 = np.vectorize(complex)(real2, fase1)
+    troca1 = mag1*vec_fase(np.angle(freq2))
+    troca2 = mag2*vec_fase(np.angle(freq1))
 
-    f_ishift = np.fft.ifftshift(fur1)
-    img1 = np.fft.ifft2(f_ishift)
+    img1 = np.fft.ifft2(troca1)
     img1 = np.real(img1)
 
-    f_ishift = np.fft.ifftshift(fur2)
-    img2 = np.fft.ifft2(f_ishift)
+    img2 = np.fft.ifft2(troca2)
     img2 = np.real(img2)
 
     plot([img1, img2])
 
 def edge_improv2(img):
-    passa_alta = img - cv.GaussianBlur(img, (0, 0), sigma) + 127
-    return img + passa_alta
+    blur = cv.GaussianBlur(img, (5, 5), 0)
+    img_mod = cv.addWeighted(img, 2, blur, -1, 0)
+    return img_mod
 
 def main():
 
@@ -64,7 +65,10 @@ def main():
     f_clown = furr(clown)
     f_man = furr(man)
 
-    troca_fase(f_clown, f_man)
+    troca_fase(clown, man)
+
+    plot([clown, edge_improv2(clown)])
+    plot([man, edge_improv2(man)])
 
 
 if __name__ == '__main__':

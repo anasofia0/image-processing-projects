@@ -5,16 +5,9 @@ import numpy as np
     Funcoes auxiliares
 """
 
-
 def show_img(img, nome=''):
     cv.imshow(nome, img)
     cv.waitKey(0)
-
-
-def dist_euclid_centro(img):
-    row, col = img.shape
-    u, v = np.meshgrid([i for i in range(col)], [i for i in range(row)])
-    return np.add(np.power(np.subtract(u, int(col/2)), 2), np.power(np.subtract(v, int(row/2)), 2))
 
 """
     Funcoes dec_int e edge_improvd
@@ -38,9 +31,21 @@ def dec_int(img):
     return img
 
 
-def edge_improv(img, sigma):
+def edge_improv(img):
 
+    kernel = np.array([[1,1,1],
+                        [1,1,1],
+                        [1,1,1]])/10
+    
+    blurr = cv.filter2D(img,-1,kernel)
 
+    kernel = np.array([[-1,-1,-1],
+                        [-1,9,-1],
+                        [-1,-1,-1]])
+    
+    edge_imp = cv.filter2D(blurr,-1,kernel)
+    
+    return edge_imp
 
 
 def main():
@@ -49,7 +54,7 @@ def main():
     img = cv.imread(img)
 
     img_mod_1 = dec_int(img)
-    img_mod_1 = edge_improv(img_mod_1, 10)
+    img_mod_1 = edge_improv(img_mod_1)
     show_img(img_mod_1)
     # cv.destroyAllWindows()
 
@@ -61,7 +66,7 @@ def main():
     show_img(img_mod_2)
     img_mod_2 = cv.resize(img_mod_2, (y, x), cv.INTER_CUBIC)
     show_img(img_mod_2, 'Interpolada')
-    img_mod_2 = edge_improv(img_mod_2, 3)
+    img_mod_2 = edge_improv(img_mod_2)
     show_img(img_mod_2, 'Filtro')
 
 
