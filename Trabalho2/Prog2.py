@@ -34,7 +34,7 @@ def main():
     cv.imshow('img', img)
     cv.waitKey(0)
 
-    # aplicando ditalaca, abertura e erosao
+    # aplicando ditalacao, abertura e erosao
 
     img = cv.dilate(img,cv.getStructuringElement(cv.MORPH_ELLIPSE,(3,3)),iterations = 1)
 
