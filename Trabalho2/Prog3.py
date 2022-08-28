@@ -1,15 +1,18 @@
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
 
 def main():
 
-    img = cv.imread('Trabalho2/imagens/img_cells.jpg')
+    img = cv.imread('imagens/img_cells.jpg')
     img_orig = img.copy()
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
     # binarizando
 
     _,img = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
+
+    cv.imshow('img', img)
+    cv.waitKey(0)
 
     # preenchendo espaços desconexos
 

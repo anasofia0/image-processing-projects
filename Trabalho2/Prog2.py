@@ -5,9 +5,6 @@ from matplotlib import pyplot as plt
 def main():
 
     img = cv.imread('imagens/morf_test.png',cv.IMREAD_GRAYSCALE)
-
-    cv.imshow('img', img)
-    cv.waitKey(0)
     
     # aplicando fechamento, para obter o fundo
 
@@ -30,6 +27,8 @@ def main():
 
     # binarizando a imagem
 
+    img = cv.GaussianBlur(img, (3,3), 0)
+
     _,img = cv.threshold(img,0,255,cv.THRESH_BINARY+cv.THRESH_OTSU)
     cv.imshow('img', img)
     cv.waitKey(0)
@@ -39,11 +38,6 @@ def main():
     img = cv.dilate(img,cv.getStructuringElement(cv.MORPH_ELLIPSE,(3,3)),iterations = 1)
 
     img = cv.morphologyEx(img, cv.MORPH_OPEN, cv.getStructuringElement(cv.MORPH_ELLIPSE,(3,3)))
-
-    cv.imshow('img', 255 - img)
-    cv.waitKey(0)
-
-    img = cv.erode(img,cv.getStructuringElement(cv.MORPH_ELLIPSE,(3,3)),iterations = 1)
 
     # invertendo imagem
 

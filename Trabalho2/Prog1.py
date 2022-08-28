@@ -1,4 +1,3 @@
-from cmath import pi
 import cv2 as cv
 import numpy as np
 import scipy.ndimage as scp
@@ -6,7 +5,7 @@ import math
 
 def main():
 
-    img = cv.imread('Trabalho2/imagens/pcb.jpg', 0)
+    img = cv.imread('imagens/pcb.jpg', 0)
 
     cv.imshow('img', img)
     cv.waitKey(0)
@@ -17,11 +16,17 @@ def main():
 
     bola = cv.morphologyEx(img, cv.MORPH_CLOSE, cv.getStructuringElement(cv.MORPH_ELLIPSE,(31,31)))
 
+    cv.imshow('img', bola)
+    cv.waitKey(0)
+
     # aplicando fill e subraindo para obter as bolas
 
     bola_aux = scp.binary_fill_holes(bola)
     bola_aux = bola_aux * 255
     bola_aux = np.asarray(bola_aux, dtype='uint8')
+
+    cv.imshow('img', bola_aux)
+    cv.waitKey(0)
 
     bola = bola_aux - bola
 
